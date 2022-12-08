@@ -1,5 +1,6 @@
 import { updateDoc } from "firebase/firestore";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
@@ -52,6 +53,8 @@ function SignUp() {
     } catch (error) {
       console.log('error');
       console.log(error);
+      toast.error("Something Went Wring with registration");
+
     }
   }
 
