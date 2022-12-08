@@ -42,7 +42,10 @@ function SignUp() {
       delete formDataCopy.password
       formDataCopy.timestamp = serverTimestamp()
       //adding data to db
-      await setDoc(doc(db, 'users', user.ui), formDataCopy)
+      console.log(db);
+      console.log(user.uid);
+      console.log(formDataCopy);
+      await setDoc(doc(db, 'users', user.uid), formDataCopy)
 
       navigate('/')
 
