@@ -1,4 +1,3 @@
-import { updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +6,7 @@ import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 import { getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
 import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
 import { db } from '../firebase.config'
+import OAuth from "../components/OAuth";
 
 function SignUp() {
   
@@ -111,7 +111,7 @@ function SignUp() {
             </div>
           </form>
 
-          {/* Google OAuth */}
+          <OAuth />
           <Link to="/sign-in" className="registerLink">
             Sign In instead
           </Link>
