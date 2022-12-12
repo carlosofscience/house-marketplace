@@ -271,6 +271,7 @@ function CreateListing() {
                 onChange={onMutate}
                 min="1"
                 max="50"
+                step={0.5}
                 required
               />
             </div>

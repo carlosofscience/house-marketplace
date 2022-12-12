@@ -48,7 +48,7 @@ function SignUp() {
       navigate('/')
 
     } catch (error) {
-      toast.error("Something Went Wring with registration");
+      toast.error("Something Went Wrong with registration");
     }
   }
 

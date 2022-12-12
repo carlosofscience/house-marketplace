@@ -528,6 +528,11 @@ button {
   display: inline;
 }
 
+.discuntedPriceTag{
+  color: red;
+  text-decoration-line: line-through;
+}
+
 .listingType {
   padding: 0.25rem 0.5rem;
   background-color: #00cc66;

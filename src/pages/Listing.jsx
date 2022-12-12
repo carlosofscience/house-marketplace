@@ -77,9 +77,16 @@ function Listing() {
       <div className="listingDetails">
         <p className="listingName">
           {listing.name} -{" "}
-          {listing.offer
-            ? formatToCurrency(listing.discountedPrice)
-            : formatToCurrency(listing.regularPrice)}
+          {listing.offer ? (
+            <>
+              {formatToCurrency(listing.discountedPrice)+" "}
+              <span className="discuntedPriceTag">
+                {formatToCurrency(listing.regularPrice)}
+              </span>
+            </>
+          ) : (
+            formatToCurrency(listing.regularPrice)
+          )}
         </p>
         <p className="listingLocation">{listing.location}</p>
         <p className="listingType">
