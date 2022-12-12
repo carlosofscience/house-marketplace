@@ -105,7 +105,6 @@ function CreateListing() {
 
       geolocation.lat = latitude
       geolocation.lng = longitude;
-      location = address
       console.log(geolocation);
       console.log(location);
     }
@@ -163,7 +162,8 @@ function CreateListing() {
 
     delete formDataCopy.images
     delete formDataCopy.address
-    location  && (formDataCopy.location = location)
+    
+    formDataCopy.location = address
     !formDataCopy.offer && delete formDataCopy.discountedPrice
 
     //TODO: handle on saving listing fails

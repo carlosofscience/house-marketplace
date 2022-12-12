@@ -16,10 +16,9 @@ function ListingItem({ listing, id, onDelete}) {
     bedrooms,
     bathrooms,
   } = listing;
-
   return (
     <li className="categoryListing">
-      <Link to={`/category/${type}/id`} className="categoryListingLink">
+      <Link to={`/category/${type}/${id}`} className="categoryListingLink">
         <img src={imgUrls[0]} alt={name} className="categoryListingImg" />
         <div className="categoryListingDetails">
           <p className="categoryListingLocation">{location}</p>
@@ -33,11 +32,11 @@ function ListingItem({ listing, id, onDelete}) {
           <div className="categoryListingInfoDiv">
             <img src={bedIcon} alt="bed" />
             <p className="categoryListingInfoText">
-              {bedrooms > 1 ? `${bedrooms} bedrooms` : "bedroom"}
+              {formatBedroomsAndBadrooms(bedrooms, "bedroom")}
             </p>
             <img src={bathtubIcon} alt="bath" />
             <p className="categoryListingInfoText">
-              {bathrooms > 1 ? `${bathrooms} bathrooms` : "bathroom"}
+              {formatBedroomsAndBadrooms(bathrooms, "bathroom")}
             </p>
           </div>
         </div>
@@ -53,12 +52,18 @@ function ListingItem({ listing, id, onDelete}) {
   );
 }
 
-function formatToCurrency(num){
+export const formatToCurrency = (num) => {
   let amount = num.toString();
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   }).format(amount);
 }
+
+export const formatBedroomsAndBadrooms = (quantity, singularName) => {
+ return quantity === 0 ? `no ${singularName}s` :`${quantity} ${quantity > 1 ? singularName + "s" : singularName}`
+};
+
+
 
 export default ListingItem
