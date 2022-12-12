@@ -19,7 +19,7 @@ function App() {
   return (
     <>
       <Router>
-        <Routes>
+        <Routes className="wrapper">
           <Route path="/" element={<Explore />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/category/:categoryName" element={<Category />} />

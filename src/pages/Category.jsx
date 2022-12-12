@@ -38,8 +38,6 @@ function Category() {
           });
         });
 
-        console.log(listings);
-
         setListings(listings);
         setLoading(false);
       } catch (error) {
@@ -76,8 +74,6 @@ function Category() {
         });
       });
 
-      console.log(listings);
-
       setListings((prevState)=>[...prevState, ...listings]);
       setLoading(false);
     } catch (error) {
@@ -86,7 +82,7 @@ function Category() {
   };
 
   return (
-    <div className="category">
+    <div className="category wrapper">
       <header>
         <p className="pageHeader">
           Places for {params.categoryName === "rent" ? "rent" : "sale"}

@@ -124,7 +124,7 @@ function EditListing() {
         `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
       );
       const data = await response.json();
-      console.log(data.results[0]);
+      // console.log(data.results[0]);
       geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
       geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
 
@@ -142,8 +142,8 @@ function EditListing() {
     } else {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
-      console.log(geolocation);
-      console.log(location);
+      // console.log(geolocation);
+      // console.log(location);
     }
 
     //Store Images in firebase
@@ -176,7 +176,7 @@ function EditListing() {
           },
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
+              // console.log("File available at", downloadURL);
               resolve(downloadURL);
             });
           }

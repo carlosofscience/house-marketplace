@@ -43,18 +43,12 @@ function SignUp() {
       delete formDataCopy.password
       formDataCopy.timestamp = serverTimestamp()
       //adding data to db
-      console.log(db);
-      console.log(user.uid);
-      console.log(formDataCopy);
       await setDoc(doc(db, 'users', user.uid), formDataCopy)
 
       navigate('/')
 
     } catch (error) {
-      console.log('error');
-      console.log(error);
       toast.error("Something Went Wring with registration");
-
     }
   }
 

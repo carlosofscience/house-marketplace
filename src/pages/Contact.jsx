@@ -53,11 +53,6 @@ function Contact() {
                 onChange={onChange}
               ></textarea>
             </div>
-            {console.log(
-              `mailto:${landlord.email}?Subject=${searchParams.get(
-                "listingName"
-              )}&body=${message}`
-            )}
             <a
               href={`mailto:${landlord.email}?Subject=${searchParams.get(
                 "listingName"

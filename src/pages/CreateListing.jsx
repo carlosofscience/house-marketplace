@@ -49,20 +49,21 @@ function CreateListing() {
   const isMounted = useRef(true)
 
   useEffect(() => {
-    //adding the user to the state, this update on auth state change 
+    //adding the user to the state, this update on auth state change
     if (isMounted) {
-      onAuthStateChanged(auth, (user)=>{
-        if (user){
-          setFormData({...formData, userRef: user.uid})
-        }else{
-          navigate('/sign-in')
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setFormData({ ...formData, userRef: user.uid });
+        } else {
+          navigate("/sign-in");
         }
-      })
+      });
     }
 
     return () => {
       isMounted.current = false;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
   const onSubmit = async (e) => {
@@ -89,7 +90,6 @@ function CreateListing() {
         `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
       );
       const data = await response.json()
-      console.log(data.results[0]);
       geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
       geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
       
@@ -106,8 +106,8 @@ function CreateListing() {
 
       geolocation.lat = latitude
       geolocation.lng = longitude;
-      console.log(geolocation);
-      console.log(location);
+      // console.log(geolocation);
+      // console.log(location);
     }
 
     //Store Images in firebase
@@ -140,7 +140,7 @@ function CreateListing() {
           },
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
+              // console.log("File available at", downloadURL);
               resolve(downloadURL)
             });
           }
@@ -403,7 +403,7 @@ function CreateListing() {
               max="999999999"
               required
             />
-            {type == "rent" && <p className="formPriceText">$ / Month</p>}
+            {type === "rent" && <p className="formPriceText">$ / Month</p>}
           </div>
 
           {offer && (
