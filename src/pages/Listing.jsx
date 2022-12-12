@@ -15,19 +15,6 @@ function Listing() {
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
-  const {
-    name,
-    discountedPrice,
-    offer,
-    regularPrice,
-    location,
-    type,
-    bedrooms,
-    bathrooms,
-    parking,
-    furnished,
-    userRef,
-  } = listing;
   const navigate = useNavigate();
   const params = useParams();
   const auth = getAuth();
@@ -69,38 +56,38 @@ function Listing() {
 
       <div className="listingDetails">
         <p className="listingName">
-          {name} -{" "}
-          {offer
-            ? formatToCurrency(discountedPrice)
-            : formatToCurrency(regularPrice)}
+          {listing.name} -{" "}
+          {listing.offer
+            ? formatToCurrency(listing.discountedPrice)
+            : formatToCurrency(listing.regularPrice)}
         </p>
-        <p className="listingLocation">{location}</p>
-        <p className="listingType">For {type === "rent" ? "rent" : "sale"}</p>
-        {offer && (
+        <p className="listingLocation">{listing.location}</p>
+        <p className="listingType">For {listing.type === "rent" ? "rent" : "sale"}</p>
+        {listing.offer && (
           <p className="discountedPrice">
-            ${regularPrice - discountedPrice} discount
+            ${listing.regularPrice - listing.discountedPrice} discount
           </p>
         )}
 
         <ul className="listingDetailsList">
-          <li>{formatBedroomsAndBadrooms(bedrooms, "bedroom")}</li>
-          <li>{formatBedroomsAndBadrooms(bathrooms, "bathroom")}</li>
-          <li>{parking && "Parking Spot"}</li>
-          <li>{furnished && "Furnished"}</li>
+          <li>{formatBedroomsAndBadrooms(listing.bedrooms, "bedroom")}</li>
+          <li>{formatBedroomsAndBadrooms(listing.bathrooms, "bathroom")}</li>
+          <li>{listing.parking && "Parking Spot"}</li>
+          <li>{listing.furnished && "Furnished"}</li>
         </ul>
 
-          <p className="listingLocationTitle">
-            Location
-          </p>
+        <p className="listingLocationTitle">Location</p>
 
-          {/* MAP HERE */}
+        {/* MAP HERE */}
 
-          {auth.currentUser?.uid !== userRef && (
-            <Link to={`/contact/${userRef}?listingName=${name}&Location${location}`} className="primaryButton">
-              Contact Landlord
-            </Link>
-          )}
-
+        {auth.currentUser?.uid !== listing.userRef && (
+          <Link
+            to={`/contact/${listing.userRef}?listingName=${listing.name}&Location${listing.location}`}
+            className="primaryButton"
+          >
+            Contact Landlord
+          </Link>
+        )}
       </div>
     </main>
   );
