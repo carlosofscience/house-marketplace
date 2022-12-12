@@ -5,30 +5,29 @@ import { db } from '../firebase.config'
 import { toast } from "react-toastify";
 
 function Contact() {
-
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [landlord, setLandlord] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams()
+  // eslint-disable-next-line
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const params = useParams()
+  const params = useParams();
 
-  const onChange = (e)=>{
-    setMessage(e.target.value)
-  }
+  const onChange = (e) => {
+    setMessage(e.target.value);
+  };
 
   useEffect(() => {
-
     const getLandlord = async () => {
-      const docRef = doc(db, 'users', params.landlordId)
-      const docSnap = await getDoc(docRef)
-      if(docSnap.exists()){
-        setLandlord(docSnap.data())
-      }else{
-        toast.error('Could not get landlord data')
+      const docRef = doc(db, "users", params.landlordId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setLandlord(docSnap.data());
+      } else {
+        toast.error("Could not get landlord data");
       }
     };
-    
-    getLandlord()
+
+    getLandlord();
   }, [params.landlordId]);
 
   return (
@@ -43,18 +42,36 @@ function Contact() {
           </div>
           <form className="messageForm">
             <div className="messageDiv">
-              <label htmlFor="message" className="messageLabel">Message</label>
-              <textarea name="message" id="message" className="textarea" value={message} onChange={onChange}></textarea>
+              <label htmlFor="message" className="messageLabel">
+                Message
+              </label>
+              <textarea
+                name="message"
+                id="message"
+                className="textarea"
+                value={message}
+                onChange={onChange}
+              ></textarea>
             </div>
-            {console.log(`mailto:${landlord.email}?Subject=${searchParams.get("listingName")}&body=${message}`)}
-            <a href={`mailto:${landlord.email}?Subject=${searchParams.get("listingName")}&body=${message}`}>
-              <button type="button" className="primaryButton">Send Message</button>
+            {console.log(
+              `mailto:${landlord.email}?Subject=${searchParams.get(
+                "listingName"
+              )}&body=${message}`
+            )}
+            <a
+              href={`mailto:${landlord.email}?Subject=${searchParams.get(
+                "listingName"
+              )}&body=${message}`}
+            >
+              <button type="button" className="primaryButton">
+                Send Message
+              </button>
             </a>
           </form>
         </main>
       )}
     </div>
-  )
+  );
 }
 
 export default Contact

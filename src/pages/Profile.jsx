@@ -92,6 +92,10 @@ function Profile() {
     }
   }
 
+  const onEdit = (id)=>{
+    navigate(`/edit-listing/${id}`);
+  }
+
   return (
     <div className="profile">
       <header className="profileHeader">
@@ -133,23 +137,32 @@ function Profile() {
             />
           </form>
         </div>
-        <Link to='/create-listing' className='createListing'>
+        <Link to="/create-listing" className="createListing">
           <img src={homeIcon} alt="home" />
           <p>Sell or rent your home</p>
           <img src={arrowRight} alt="arrow right" />
         </Link>
-        
+
         {!loading && listings?.length > 0 && (
           <>
             <p className="listingText">Your Listings</p>
             <ul className="listingsList">
-              {listings.map( ({data, id}) =>(
-                <ListingItem key={id} listing={data} id={id} onDelete={()=>{onDelete(id)}}/>
+              {listings.map(({ data, id }) => (
+                <ListingItem
+                  key={id}
+                  listing={data}
+                  id={id}
+                  onDelete={() => {
+                    onDelete(id);
+                  }}
+                  onEdit={() => {
+                    onEdit(id);
+                  }}
+                />
               ))}
             </ul>
           </>
         )}
-
       </main>
     </div>
   );

@@ -11,12 +11,6 @@ import {
   formatBedroomsAndBadrooms,
 } from "../components/ListingItem";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-
-
-// import SwiperCore, { Navigation, Scrollbar, Pagination, A11y } from "swiper";
-// import { Swiper, SwiperSlide } from 'swiper/react'
-
-// import Swiper core and required modules
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css'
@@ -31,7 +25,6 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 function Listing() {
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [shareLinkCopied, setShareLinkCopied] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const auth = getAuth();
@@ -60,11 +53,11 @@ function Listing() {
           <SwiperSlide key={index}>
             <div
               style={{
-                background: `url(${listing.imgUrls[index]}) center no-repeat`,
-                backgroundSize: 'fixed',
-                height:500
+                background: `url(${url}) center no-repeat`,
+                backgroundSize: "fixed",
+                height: 500,
               }}
-              className='swiperSlideDiv'
+              className="swiperSlideDiv"
             ></div>
           </SwiperSlide>
         ))}
@@ -73,11 +66,7 @@ function Listing() {
         className="shareIconDiv"
         onClick={() => {
           navigator.clipboard.writeText(window.location.href);
-          setShareLinkCopied(true);
           toast.info("Shared link copied ");
-          setTimeout(() => {
-            setShareLinkCopied(false);
-          }, 2000);
         }}
       >
         <img src={shareIcon} alt="share" />
