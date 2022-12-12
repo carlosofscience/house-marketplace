@@ -10,6 +10,8 @@ import {
   formatToCurrency,
   formatBedroomsAndBadrooms,
 } from "../components/ListingItem";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+
 
 function Listing() {
   const [listing, setListing] = useState(null);
@@ -52,7 +54,7 @@ function Listing() {
         <img src={shareIcon} alt="share" />
       </div>
 
-      {shareLinkCopied && <p className="shareLinkCopied">Link Copied!</p>}
+      {/* {shareLinkCopied && <p className="shareLinkCopied">Link Copied!</p>} */}
 
       <div className="listingDetails">
         <p className="listingName">
@@ -62,7 +64,9 @@ function Listing() {
             : formatToCurrency(listing.regularPrice)}
         </p>
         <p className="listingLocation">{listing.location}</p>
-        <p className="listingType">For {listing.type === "rent" ? "rent" : "sale"}</p>
+        <p className="listingType">
+          For {listing.type === "rent" ? "rent" : "sale"}
+        </p>
         {listing.offer && (
           <p className="discountedPrice">
             ${listing.regularPrice - listing.discountedPrice} discount
@@ -78,7 +82,25 @@ function Listing() {
 
         <p className="listingLocationTitle">Location</p>
 
-        {/* MAP HERE */}
+        <div className="leafletContainer">
+          <MapContainer
+            style={{ height: "100%", width: "100%" }}
+            center={[listing.geolocation.lat, listing.geolocation.lng]}
+            zoom={13}
+            // scrollWheelZoom={false}
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
+            />
+
+            <Marker
+              position={[listing.geolocation.lat, listing.geolocation.lng]}
+            >
+              <Popup>{listing.location}</Popup>
+            </Marker>
+          </MapContainer>
+        </div>
 
         {auth.currentUser?.uid !== listing.userRef && (
           <Link
