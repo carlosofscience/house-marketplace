@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useFetcher, useParams, useResolvedPath } from 'react-router-dom'
-import { collection, getDocs, query, where, orderBy, limit, startAfter, getDoc } from 'firebase/firestore'
+import { collection, getDocs, query, where, orderBy, limit, startAfter } from 'firebase/firestore'
 import { db } from '../firebase.config'
 import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
@@ -11,6 +11,7 @@ function Category() {
 
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [lastFetchedListing, setLastFetchedListing] = useState(null);
   
   const params = useParams()
   useEffect(() => {
@@ -26,7 +27,8 @@ function Category() {
         );
         //execute query
         const querySnap = await getDocs(q);
-
+        const lastVisible = querySnap.docs[querySnap.docs.length-1]
+        setLastFetchedListing(lastVisible)
         const listings = [];
 
         querySnap.forEach((doc) => {
@@ -48,6 +50,41 @@ function Category() {
     fetchListings();
   }, [params.categoryName]);
 
+  //Pagination / load more
+  const onFetchMoreListings = async () => {
+    try {
+      //Get reference
+      const listingsRef = collection(db, "listings");
+      //create query
+      const q = query(
+        listingsRef,
+        where("type", "==", params.categoryName),
+        orderBy("timestamp", "desc"),
+        startAfter(lastFetchedListing),
+        limit(10)
+      );
+      //execute query
+      const querySnap = await getDocs(q);
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+      setLastFetchedListing(lastVisible);
+      const listings = [];
+
+      querySnap.forEach((doc) => {
+        listings.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+
+      console.log(listings);
+
+      setListings((prevState)=>[...prevState, ...listings]);
+      setLoading(false);
+    } catch (error) {
+      toast.error("Could not fetch listings");
+    }
+  };
+
   return (
     <div className="category">
       <header>
@@ -58,15 +95,24 @@ function Category() {
       {loading ? (
         <Spinner />
       ) : listings && listings.length > 0 ? (
-        <main>
-          <ul className="categoryListings">
-            {listings.map(({ data, id }) => (
-              <ListingItem key={id} id={id} listing={data}>
-                {data.name}
-              </ListingItem>
-            ))}
-          </ul>
-        </main>
+        <>
+          <main>
+            <ul className="categoryListings">
+              {listings.map(({ data, id }) => (
+                <ListingItem key={id} id={id} listing={data}>
+                  {data.name}
+                </ListingItem>
+              ))}
+            </ul>
+          </main>
+          <br />
+          <br />
+          {lastFetchedListing && (
+            <p className="loadMore" onClick={onFetchMoreListings}>
+              Load More
+            </p>
+          )}
+        </>
       ) : (
         <p>No listings for {params.categoryName}</p>
       )}
